@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: blatt2
+Bundle-ManifestVersion: 2
+Bundle-Name: blatt2
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: blatt2; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: Blatt1,
+ org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: blatt2,
+ blatt2.formatting2,
+ blatt2.parser.antlr.internal,
+ blatt2.generator,
+ blatt2.scoping,
+ blatt2.serializer,
+ blatt2.parser.antlr,
+ blatt2.services,
+ blatt2.validation
+Import-Package: org.apache.log4j
