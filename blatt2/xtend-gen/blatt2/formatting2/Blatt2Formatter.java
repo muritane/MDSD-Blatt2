@@ -3,9 +3,15 @@
  */
 package blatt2.formatting2;
 
+import Allocation.AllocationContext;
+import Assembly.AssemblyContext;
+import Assembly.Role;
+import Environment.Container;
+import Repository.Component;
 import blatt2.services.Blatt2GrammarAccess;
 import com.google.inject.Inject;
 import java.util.Arrays;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
@@ -18,32 +24,39 @@ public class Blatt2Formatter extends AbstractFormatter2 {
   @Extension
   private Blatt2GrammarAccess _blatt2GrammarAccess;
   
-  protected void _format(final /* AllocationContext */Object allocationContext, @Extension final IFormattableDocument document) {
-    throw new Error("Unresolved compilation problems:"
-      + "\ntargetContainer cannot be resolved"
-      + "\nformat cannot be resolved");
+  protected void _format(final AllocationContext allocationContext, @Extension final IFormattableDocument document) {
+    EList<Container> _targetContainer = allocationContext.getTargetContainer();
+    for (final Container container : _targetContainer) {
+      document.<Container>format(container);
+    }
   }
   
-  protected void _format(final /* AssemblyContext */Object assemblyContext, @Extension final IFormattableDocument document) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nprovidedRole cannot be resolved"
-      + "\nformat cannot be resolved"
-      + "\ncomponent cannot be resolved"
-      + "\nformat cannot be resolved");
+  protected void _format(final AssemblyContext assemblyContext, @Extension final IFormattableDocument document) {
+    EList<Role> _providedRole = assemblyContext.getProvidedRole();
+    for (final Role role : _providedRole) {
+      document.<Role>format(role);
+    }
+    EList<Component> _component = assemblyContext.getComponent();
+    for (final Component component : _component) {
+      document.<Component>format(component);
+    }
   }
   
   public void format(final Object allocationContext, final IFormattableDocument document) {
     if (allocationContext instanceof XtextResource) {
       _format((XtextResource)allocationContext, document);
       return;
+    } else if (allocationContext instanceof AllocationContext) {
+      _format((AllocationContext)allocationContext, document);
+      return;
+    } else if (allocationContext instanceof AssemblyContext) {
+      _format((AssemblyContext)allocationContext, document);
+      return;
     } else if (allocationContext instanceof EObject) {
       _format((EObject)allocationContext, document);
       return;
     } else if (allocationContext == null) {
       _format((Void)null, document);
-      return;
-    } else if (allocationContext != null) {
-      _format(allocationContext, document);
       return;
     } else if (allocationContext != null) {
       _format(allocationContext, document);
