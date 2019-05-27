@@ -7,6 +7,24 @@ var rootPath = ".."
 
 Workflow {
 	
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+		registerGenModelFile = "platform:/resource/Blatt1/model/allocation.genmodel"
+		//registerEcoreFile="platform:/resource/Blatt1/model/allocation.ecore"
+	 	platformUri="platform:/resource/Blatt1/model/allocation.ecore#//allocation" 
+	 	//registerGeneratedEPackage = "my.project.DomainmodelPackage"
+    	//registerGenModelFile = "platform:/resource/Blatt1/model/allocation.genmodel"
+	}
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+	 	platformUri="platform:/resource/Blatt1/model/assembly.ecore#//assembly"
+	}
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+	 	platformUri="platform:/resource/Blatt1/model/repository.ecore#//repository"
+	}
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+	 	platformUri="platform:/resource/Blatt1/model/environment.ecore#//environment"
+	}
+	
+	
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
