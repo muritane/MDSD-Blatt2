@@ -7,7 +7,15 @@ import Allocation.AllocationContext;
 import Assembly.AssemblyContext;
 import Assembly.Role;
 import Environment.Container;
+import Repository.BehaviorDescription;
+import Repository.Branch;
 import Repository.Component;
+import Repository.CompositeComponent;
+import Repository.Interface;
+import Repository.InternalAction;
+import Repository.Loop;
+import Repository.Service;
+import Repository.Signature;
 import blatt2.services.Blatt2GrammarAccess;
 import com.google.inject.Inject;
 import java.util.Arrays;
@@ -42,28 +50,87 @@ public class Blatt2Formatter extends AbstractFormatter2 {
     }
   }
   
-  public void format(final Object allocationContext, final IFormattableDocument document) {
-    if (allocationContext instanceof XtextResource) {
-      _format((XtextResource)allocationContext, document);
+  protected void _format(final Component component, @Extension final IFormattableDocument document) {
+    EList<Interface> _requiredInterface = component.getRequiredInterface();
+    for (final Interface requiredInterface : _requiredInterface) {
+      document.<Interface>format(requiredInterface);
+    }
+    EList<Interface> _providedInterface = component.getProvidedInterface();
+    for (final Interface providedInterface : _providedInterface) {
+      document.<Interface>format(providedInterface);
+    }
+    EList<Service> _requiredService = component.getRequiredService();
+    for (final Service requiredService : _requiredService) {
+      document.<Service>format(requiredService);
+    }
+    EList<Service> _providedService = component.getProvidedService();
+    for (final Service providedService : _providedService) {
+      document.<Service>format(providedService);
+    }
+    document.<BehaviorDescription>format(component.getBehaviourDescription());
+  }
+  
+  protected void _format(final Interface interface_, @Extension final IFormattableDocument document) {
+    EList<Signature> _signature = interface_.getSignature();
+    for (final Signature signature : _signature) {
+      document.<Signature>format(signature);
+    }
+  }
+  
+  protected void _format(final Service service, @Extension final IFormattableDocument document) {
+    EList<Signature> _correspondingSignature = service.getCorrespondingSignature();
+    for (final Signature signature : _correspondingSignature) {
+      document.<Signature>format(signature);
+    }
+  }
+  
+  protected void _format(final BehaviorDescription behaviorDescription, @Extension final IFormattableDocument document) {
+    document.<InternalAction>format(behaviorDescription.getInternalActions());
+    document.<Loop>format(behaviorDescription.getLoops());
+    document.<Branch>format(behaviorDescription.getBranches());
+  }
+  
+  protected void _format(final CompositeComponent compositeComponent, @Extension final IFormattableDocument document) {
+    document.<AssemblyContext>format(compositeComponent.getEncapsulatedAssemblyContext());
+  }
+  
+  public void format(final Object compositeComponent, final IFormattableDocument document) {
+    if (compositeComponent instanceof XtextResource) {
+      _format((XtextResource)compositeComponent, document);
       return;
-    } else if (allocationContext instanceof AllocationContext) {
-      _format((AllocationContext)allocationContext, document);
+    } else if (compositeComponent instanceof CompositeComponent) {
+      _format((CompositeComponent)compositeComponent, document);
       return;
-    } else if (allocationContext instanceof AssemblyContext) {
-      _format((AssemblyContext)allocationContext, document);
+    } else if (compositeComponent instanceof AllocationContext) {
+      _format((AllocationContext)compositeComponent, document);
       return;
-    } else if (allocationContext instanceof EObject) {
-      _format((EObject)allocationContext, document);
+    } else if (compositeComponent instanceof AssemblyContext) {
+      _format((AssemblyContext)compositeComponent, document);
       return;
-    } else if (allocationContext == null) {
+    } else if (compositeComponent instanceof BehaviorDescription) {
+      _format((BehaviorDescription)compositeComponent, document);
+      return;
+    } else if (compositeComponent instanceof Component) {
+      _format((Component)compositeComponent, document);
+      return;
+    } else if (compositeComponent instanceof Interface) {
+      _format((Interface)compositeComponent, document);
+      return;
+    } else if (compositeComponent instanceof Service) {
+      _format((Service)compositeComponent, document);
+      return;
+    } else if (compositeComponent instanceof EObject) {
+      _format((EObject)compositeComponent, document);
+      return;
+    } else if (compositeComponent == null) {
       _format((Void)null, document);
       return;
-    } else if (allocationContext != null) {
-      _format(allocationContext, document);
+    } else if (compositeComponent != null) {
+      _format(compositeComponent, document);
       return;
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(allocationContext, document).toString());
+        Arrays.<Object>asList(compositeComponent, document).toString());
     }
   }
 }
