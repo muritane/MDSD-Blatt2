@@ -32,10 +32,10 @@ Workflow {
 		language = StandardLanguage {
 			name = "blatt2.Blatt2"
 			fileExtensions = "blatt2"
-			referencedResource = "platform:/resource/Blatt1/model/assembly.genmodel"
-			referencedResource = "platform:/resource/Blatt1/model/environment.genmodel"
 			referencedResource = "platform:/resource/Blatt1/model/repository.genmodel"
+			referencedResource = "platform:/resource/Blatt1/model/assembly.genmodel"
 			referencedResource = "platform:/resource/Blatt1/model/allocation.genmodel"
+			referencedResource = "platform:/resource/Blatt1/model/environment.genmodel"
 			
 			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
 
