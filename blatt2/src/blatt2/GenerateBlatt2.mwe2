@@ -3,33 +3,44 @@ module blatt2.GenerateBlatt2
 import org.eclipse.xtext.xtext.generator.*
 import org.eclipse.xtext.xtext.generator.model.project.*
 
-var rootPath = ".."
+//var rootPath = ".."
+var projectName = "blatt2"
+var runtimeProject = "../${projectName}"
 
 Workflow {
 	
 	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+		platformUri = "${runtimeProject}/.."
+	    scanClassPath = true
+	    
 		registerGenModelFile = "platform:/resource/Blatt1/model/allocation.genmodel"
+		registerGenModelFile = "platform:/resource/Blatt1/model/assembly.genmodel"
+		registerGenModelFile = "platform:/resource/Blatt1/model/repository.genmodel"
+		registerGenModelFile = "platform:/resource/Blatt1/model/environment.genmodel"
+		
+		//registerGeneratedEPackage = "platform:/resource/Blatt1/model/allocation.ecore//#allocation"
+		
 		//registerEcoreFile="platform:/resource/Blatt1/model/allocation.ecore"
-	 	platformUri="platform:/resource/Blatt1/model/allocation.ecore#//allocation" 
+	 	 
 	 	//registerGeneratedEPackage = "my.project.DomainmodelPackage"
     	//registerGenModelFile = "platform:/resource/Blatt1/model/allocation.genmodel"
 	}
-	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
-	 	platformUri="platform:/resource/Blatt1/model/assembly.ecore#//assembly"
-	}
-	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
-	 	platformUri="platform:/resource/Blatt1/model/repository.ecore#//repository"
-	}
-	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
-	 	platformUri="platform:/resource/Blatt1/model/environment.ecore#//environment"
-	}
+//	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+//	 	platformUri="platform:/resource/Blatt1/model/assembly.ecore#//assembly"
+//	}
+//	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+//	 	platformUri="platform:/resource/Blatt1/model/repository.ecore#//repository"
+//	}
+//	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+//	 	platformUri="platform:/resource/Blatt1/model/environment.ecore#//environment"
+//	}
 	
 	
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
 				baseName = "blatt2"
-				rootPath = rootPath
+				rootPath = ".."
 				runtimeTest = {
 					enabled = true
 				}
@@ -48,12 +59,17 @@ Workflow {
 			}
 		}
 		language = StandardLanguage {
+			//grammarUri = "platform:/resource/blatt2/src/blatt2/Blatt2.xtext"
 			name = "blatt2.Blatt2"
 			fileExtensions = "blatt2"
 			referencedResource = "platform:/resource/Blatt1/model/repository.genmodel"
 			referencedResource = "platform:/resource/Blatt1/model/assembly.genmodel"
 			referencedResource = "platform:/resource/Blatt1/model/allocation.genmodel"
 			referencedResource = "platform:/resource/Blatt1/model/environment.genmodel"
+//			referencedResource = "platform:/resource/Blatt1/model/repository.ecore"
+//			referencedResource = "platform:/resource/Blatt1/model/assembly.ecore"
+//			referencedResource = "platform:/resource/Blatt1/model/allocation.ecore"
+//			referencedResource = "platform:/resource/Blatt1/model/environment.ecore"
 			
 			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
 
