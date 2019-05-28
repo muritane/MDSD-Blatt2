@@ -6,7 +6,14 @@ import org.eclipse.xtext.xtext.generator.model.project.*
 var rootPath = ".."
 
 Workflow {
-	
+	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
+		scanClassPath = true
+		platformUri = ".."
+		registerEcoreFile = "platform:/resource/Blatt1/model/assembly.ecore"
+		registerEcoreFile = "platform:/resource/Blatt1/model/environment.ecore"
+		registerEcoreFile = "platform:/resource/Blatt1/model/repository.ecore"
+		registerEcoreFile = "platform:/resource/Blatt1/model/allocation.ecore"
+	}
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
