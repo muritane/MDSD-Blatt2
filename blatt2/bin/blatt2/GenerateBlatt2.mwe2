@@ -9,6 +9,10 @@ Workflow {
 	bean = org.eclipse.emf.mwe.utils.StandaloneSetup {
 		scanClassPath = true
 		platformUri = ".."
+//		registerGenModelFile = "platform:/resource/Blatt1/model/assembly.genmodel"
+//		registerGenModelFile = "platform:/resource/Blatt1/model/environment.genmodel"
+//		registerGenModelFile = "platform:/resource/Blatt1/model/repository.genmodel"
+//		registerGenModelFile = "platform:/resource/Blatt1/model/allocation.genmodel"
 		registerEcoreFile = "platform:/resource/Blatt1/model/assembly.ecore"
 		registerEcoreFile = "platform:/resource/Blatt1/model/environment.ecore"
 		registerEcoreFile = "platform:/resource/Blatt1/model/repository.ecore"
