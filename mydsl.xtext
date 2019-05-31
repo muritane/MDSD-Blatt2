@@ -10,10 +10,11 @@ Model:
 AbstractElement:
 	'Hello' name=ID '!' | Component | Service | 
 	Signature | AssemblyContext | SystemEnvironment |
-	Interface | AllocationContext;
+	Interface | AllocationContext | Link | Container | System;
 
 AllocationContext:
 	'AllocationContext'
+	name=ID
 	'{'
 		'allocatedAssemblyContext' '(' allocatedAssemblyContext+=[AssemblyContext|EString] ( "," allocatedAssemblyContext+=[AssemblyContext|EString])* ')' 
 		('targetContainer' '(' targetContainer+=[Container|EString] ( "," targetContainer+=[Container|EString])* ')' )?
@@ -21,8 +22,9 @@ AllocationContext:
 	
 SystemEnvironment returns SystemEnvironment:
 	'SystemEnvironment'
+	name=ID
 	'{'
-		'container' '{' container+=Container ( "," container+=Container)* '}' 
+		'container' '(' container+=[Container|EString] ( "," container+=[Container|EString])* ')' 
 		('link' '(' link+=[Link|EString] ( "," link+=[Link|EString])* ')' )?
 	'}';	
 	
@@ -37,6 +39,16 @@ Container:
 	name=ID
 	'{'
 		'links' '(' links+=[Link|EString] ( "," links+=[Link|EString])* ')' 
+	'}';
+	
+System:
+	'System'
+	name=ID
+	'{'
+		'encapsulatedAssemblyContext' '(' encapsulatedAssemblyContext+=[AssemblyContext|EString] ( "," encapsulatedAssemblyContext+=[AssemblyContext|EString])* ')' 
+		('allocationContext' allocationContext=[AllocationContext|EString])?
+		('providedInterfaces' '(' providedInterfaces+=[Interface|EString] ( "," providedInterfaces+=[Interface|EString])* ')' )?
+		'environment' environment=[SystemEnvironment|EString]
 	'}';
 
 AssemblyContext:
@@ -70,7 +82,7 @@ Component_Impl returns Component:
 	'{'
 		('requiredInterface' '(' requiredInterface+=[Interface|EString] ( "," requiredInterface+=[Interface|EString])* ')')?
 		('requiredService' '(' requiredService+=[Service|EString] ( "," requiredService+=[Service|EString])* ')')?
-		('providedInterface' '(' providedInterface+=[Interface|EString] ( "," providedInterface+=[Interface|EString])* '}')?
+		('providedInterface' '(' providedInterface+=[Interface|EString] ( "," providedInterface+=[Interface|EString])* ')')?
 		('providedService' '(' providedService+=[Service|EString] ( "," providedService+=[Service|EString])* ')')? 
 		('behaviourDescription' behaviourDescription=BehaviorDescription)?
 	'}';
@@ -87,13 +99,13 @@ BehaviorDescription:
 		('branches' branches=Branch)?
 	'}';
 
-CompositeComponent:
+CompositeComponent returns Component:
 	'CompositeComponent'
 	name=ID
 	'{'
 		('requiredInterface' '(' requiredInterface+=[Interface|EString] ( "," requiredInterface+=[Interface|EString])* ')')?
 		('requiredService' '(' requiredService+=[Service|EString] ( "," requiredService+=[Service|EString])* ')')?
-		('providedInterface' '(' providedInterface+=[Interface|EString] ( "," providedInterface+=[Interface|EString])* '}')?
+		('providedInterface' '(' providedInterface+=[Interface|EString] ( "," providedInterface+=[Interface|EString])* ')')?
 		('providedService' '(' providedService+=[Service|EString] ( "," providedService+=[Service|EString])* ')')? 
 		('behaviourDescription' behaviourDescription=BehaviorDescription)?
 		('encapsulatedAssemblyContext' encapsulatedAssemblyContext=AssemblyContext)?
