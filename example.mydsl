@@ -79,11 +79,6 @@ CompositeComponent AppServerComposite {
 	}
 }
 
-CompositeComponent MediaStore {
-	requiredInterface(AudioDB)
-	providedService (MediaStoreService)
-}
-
 Link DatabaseApplicationServerLink {
 	linkedContainers (ApplicationServer, DatabaseServer)
 }
